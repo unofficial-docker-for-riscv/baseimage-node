@@ -36,7 +36,7 @@ jobs:
 
       - name: Build and push
         run: |
-          REPOS=" \
-            ${{ secrets.DOCKERHUB_USER }}/baseimage-node \
+          REPOS="\
+            ${{ secrets.DOCKERHUB_USER }}/riscv-baseimage-node \
             ghcr.io/${{ github.repository }} \
           " ./build.sh

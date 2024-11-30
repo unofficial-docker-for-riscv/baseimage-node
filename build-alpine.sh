@@ -18,7 +18,7 @@ NODE_VERSION_MINOR=$(echo "${NODE_VERSION}" | cut -d. -f2)
 get_version "yarn" "YARN" "community"
 echo "yarn: ${YARN_VERSION}-r${YARN_RELEASE}"
 
-REPOS=(${REPOS:-ngc7331/baseimage-node})
+REPOS=(${REPOS:-ngc7331/riscv-baseimage-node})
 TAGS=()
 for repo in ${REPOS[@]}; do
   for suffix in "" "${ALPINE_VERSION}"; do
