@@ -1,0 +1,27 @@
+name: check-upstream
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  check-upstream:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.BOT_TOKEN }}
+
+      - name: Check upstream
+        run: |
+          git submodule update --remote --checkout
+          if git diff --quiet; then
+            echo "No changes in upstream"
+          else
+            echo "Changes in upstream"
+            git config user.email "77287747+ngc7331-bot@users.noreply.github.com"
+            git config user.name "ngc7331-bot"
+            git commit -am "[BOT] Update submodule"
+            git push
+          fi
