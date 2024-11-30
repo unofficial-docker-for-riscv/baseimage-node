@@ -1,0 +1,32 @@
+ARG ALPINE_VERSION=3.20
+FROM alpine:${ALPINE_VERSION}
+
+# Currently, node is unable to build on alpine 3.20 riscv64
+# so we use pre-built binaries from apk repo
+
+ARG NODE_VERSION=20.15.1
+ARG NODE_RELEASE=0
+
+ARG YARN_VERSION=1.22.22
+ARG YARN_RELEASE=0
+
+# Add NODE_VERSION & YARN_VERSION env to align with official node image
+ENV NODE_VERSION ${NODE_VERSION}
+ENV YARN_VERSION ${YARN_VERSION}
+
+# Also add node group and user to align with official node image
+RUN addgroup -g 1000 node \
+    && adduser -u 1000 -G node -s /bin/sh -D node \
+    && apk add --no-cache \
+        libstdc++ \
+        nodejs=${NODE_VERSION}-r${NODE_RELEASE} \
+        npm \
+        yarn=${YARN_VERSION}-r${YARN_RELEASE} \
+    && node --version \
+    && npm --version \
+    && yarn --version
+
+COPY docker-entrypoint.sh /usr/local/bin/
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+CMD [ "node" ]
