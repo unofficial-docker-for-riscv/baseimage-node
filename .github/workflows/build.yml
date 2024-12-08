@@ -10,6 +10,16 @@ jobs:
       contents: read
       packages: write
 
+    strategy:
+      matrix:
+        include:
+          - ALPINE_VERSION: "3.20"
+            NODE_USE_CURRENT: "false"
+          - ALPINE_VERSION: "3.21"
+            NODE_USE_CURRENT: "false"
+          - ALPINE_VERSION: "3.21"
+            NODE_USE_CURRENT: "true"
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -39,4 +49,7 @@ jobs:
           REPOS="\
             ${{ secrets.DOCKERHUB_USER }}/riscv-baseimage-node \
             ghcr.io/${{ github.repository }} \
-          " ./build.sh
+          " \
+          ALPINE_VERSION=${{ matrix.ALPINE_VERSION }} \
+          NODE_USE_CURRENT=${{ matrix.NODE_USE_CURRENT }} \
+          ./build.sh
