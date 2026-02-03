@@ -13,12 +13,12 @@ jobs:
     strategy:
       matrix:
         include:
-          - ALPINE_VERSION: "3.20"
+          - ALPINE_VERSION: "3.20" # nodejs20
             NODE_USE_CURRENT: "false"
-          - ALPINE_VERSION: "3.21"
+          - ALPINE_VERSION: "3.22" # nodejs22
             NODE_USE_CURRENT: "false"
-          - ALPINE_VERSION: "3.21"
-            NODE_USE_CURRENT: "true"
+          - ALPINE_VERSION: "3.23" # nodejs24
+            NODE_USE_CURRENT: "false"
 
     steps:
       - uses: actions/checkout@v4
